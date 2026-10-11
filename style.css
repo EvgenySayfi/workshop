@@ -64,6 +64,64 @@ body {
     }
 }
 
+/* =================== Стили =================== */
+
+h1 {
+    font-family: 'PTMonoWebRegular';
+    font-weight: 400;
+    font-size: 1em;
+    color: var(--text-color);
+    scroll-margin-top: 60px;
+   
+    width: 10%;
+    margin-left: 90%;
+    text-align: center;
+    position: sticky;
+    top: 2em;    
+    z-index: 100;
+    
+    @media (max-width: 768px) {
+        top: 2em;
+        z-index: -100;
+
+        width: auto;
+        margin-left: auto;
+        text-align: right;
+        margin-right: 1em;
+    }
+}
+
+h2 {
+    font-family: 'PTMonoWebBold';
+    font-weight: 700;
+    font-size: 3em;
+    margin: 0;
+}
+
+p {
+    font-family: 'PTMonoWebRegular';
+    font-weight: 400;
+    line-height: 1.7;
+    margin: 0;
+
+    @media (max-width: 768px) {
+        font-size: 1em;
+    } 
+}
+
+a {
+    color: var(--accent-color-1);
+    text-underline-offset: 0.12em;
+    text-decoration-color: rgb(from var(--accent-color-1) r g b / 0.4);
+}
+
+@media (min-width: 769px) {
+    a:hover {
+        color: var(--accent-color-2);
+        text-decoration-color: rgb(from var(--accent-color-2) r g b / 0.4);
+    }
+}
+
 /* ---------- Расставляет группы по колонкам страницы ---------- */
 .layout {
     display: grid;
@@ -164,6 +222,10 @@ body {
     .hide-m { display: none; }
 }
 
+@media (min-width: 769px) {
+    .hide-d { display: none; }
+}
+
 .overlay {
     position: absolute;
     inset: 0;
@@ -172,6 +234,8 @@ body {
     grid-auto-rows: calc(100cqi / var(--cols));
     pointer-events: none;
     --step: calc(100cqi / var(--cols) / 8);
+    --image-space: var(--step);
+    
 }
 
 .overlay > * {
@@ -188,6 +252,54 @@ body {
     }
 }
 
+/* Внутренняя сетка для заголовка и содержимого */
+.overlay-content {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: auto;
+    align-self: start;
+
+    /* Вертикальный промежуток между рядами */
+    --content-gap: 4rem;
+    row-gap: var(--content-gap);
+
+    /* Горизонтальный промежуток между элементами */
+    column-gap: var(--image-space);
+}
+
+/* Размещение элементов внутри этой сетки */
+.overlay-content > * {
+    /* Свои значения, чтобы не наследовать координаты обёртки */
+    --col: 1;
+    --w: 1;
+    --row: auto;
+
+    --m-col: var(--col);
+    --m-w: var(--w);
+    --m-row: var(--row);
+
+    grid-column: var(--col) / span var(--w);
+    grid-row: var(--row);
+
+    margin: 0;
+    min-width: 0;
+    align-self: start;
+}
+
+@media (max-width: 768px) {
+    .overlay-content {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        /* Вертикальный промежуток на мобильном */
+        --content-gap: 4rem;
+    }
+
+    .overlay-content > * {
+        grid-column: var(--m-col) / span var(--m-w);
+        grid-row: var(--m-row);
+    }
+}
+
 .overlay hgroup {
     display: flex;
     flex-direction: column;
@@ -195,65 +307,64 @@ body {
     align-self: start;
 }
 
-/* =================== Стили =================== */
 
-h1 {
-    font-family: 'PTMonoWebRegular';
-    font-weight: 400;
-    font-size: 1em;
-    color: var(--text-color);
-    scroll-margin-top: 60px;
-   
-    width: 10%;
-    margin-left: 90%;
-    text-align: center;
-    position: sticky;
-    top: 2em;    
-    z-index: 100;
-    
-    @media (max-width: 768px) {
-        top: 2em;
-        z-index: -100;
+.image-link {
+    position: relative;
+}
 
-        width: auto;
-        margin-left: auto;
-        text-align: right;
-        margin-right: 1em;
+.image-link img {
+    display: block;
+    width: 100%;
+    transition: opacity 0.2s ease;
+}
+
+.image-hover {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+}
+
+.image-link:hover .image-default {
+    opacity: 0;
+}
+
+.image-link:hover .image-hover {
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    .image-link .image-default {
+        opacity: 0;
+    }
+
+    .image-link .image-hover {
+        opacity: 1;
     }
 }
 
-h2 {
-    font-family: 'PTMonoWebBold';
-    font-weight: 700;
-    font-size: 3em;
-    margin: 0;
-}
+@media (max-width: 768px) {
+    .image-link.image-link--mobile-default .image-default {
+        opacity: 1;
+    }
 
-p {
-    font-family: 'PTMonoWebRegular';
-    font-weight: 400;
-    line-height: 1.7;
-    margin: 0;
-
-    @media (max-width: 768px) {
-        font-size: 1em;
-    } 
-}
-
-
-
-a {
-    color: var(--accent-color-1);
-    text-underline-offset: 0.12em;
-    text-decoration-color: rgb(from var(--accent-color-1) r g b / 0.4);
-}
-
-@media (min-width: 769px) {
-    a:hover {
-        color: var(--accent-color-2);
-        text-decoration-color: rgb(from var(--accent-color-2) r g b / 0.4);
+    .image-link.image-link--mobile-default .image-hover {
+        opacity: 0;
     }
 }
+
+/* Картинки, расположенные друг под другом */
+.image-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--image-space);
+}
+
+.image-stack > .image-link {
+    width: 100%;
+    margin: 0;
+    flex-shrink: 0;
+}
+
 
 /* =================== Классы =================== */
 
@@ -294,40 +405,6 @@ a {
     justify-content: center; 
 
     box-shadow: var(--shadow);
-}
-
-.image-link {
-    position: relative;
-}
-
-.image-link img {
-    display: block;
-    width: 100%;
-    transition: opacity 0.2s ease;
-}
-
-.image-hover {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-}
-
-.image-link:hover .image-default {
-    opacity: 0;
-}
-
-.image-link:hover .image-hover {
-    opacity: 1;
-}
-
-@media (max-width: 768px) {
-    .image-link .image-default {
-        opacity: 0;
-    }
-
-    .image-link .image-hover {
-        opacity: 1;
-    }
 }
 
 /* =================== Отступы =================== */
