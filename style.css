@@ -290,13 +290,21 @@ a {
     .overlay-content {
         grid-template-columns: repeat(2, minmax(0, 1fr));
 
-        /* Вертикальный промежуток на мобильном */
+        /* Большой отступ после заголовка */
         --content-gap: 4rem;
+
+        /* Маленький промежуток между рядами с картинками */
+        row-gap: var(--image-space);
     }
 
     .overlay-content > * {
         grid-column: var(--m-col) / span var(--m-w);
         grid-row: var(--m-row);
+    }
+
+    .overlay-content > h2 {
+        /* Вместе с row-gap даёт отступ 4rem после h2 */
+        margin-bottom: max( 0px, calc(var(--content-gap) - var(--image-space)) );
     }
 }
 
@@ -365,6 +373,25 @@ a {
     flex-shrink: 0;
 }
 
+@media (max-width: 768px) {
+    /* На мобильном размещаем картинки независимо от их групп */
+    .overlay-content > .image-stack {
+        display: contents;
+    }
+
+    /* Заголовок занимает первый ряд */
+    .overlay-content > h2 {
+        grid-row: 1;
+    }
+
+    /* Каждая картинка занимает всю ширину */
+    .overlay-content > .image-stack > .image-link {
+        grid-column: 1 / -1;
+
+        /* Номер картинки + один ряд для заголовка */
+        grid-row: calc(var(--m-order) + 1);
+    }
+}
 
 /* =================== Классы =================== */
 
