@@ -9,8 +9,6 @@
     --text-color: #d1d1d1;
     --accent-color-1: #bf1208;
     --accent-color-2: #0054c9;
-
-    --h2-top-space: 0.8rem;
 }
 
 html {
@@ -240,11 +238,6 @@ a {
     
 }
 
-/* Заголовок напрямую в overlay */
-.overlay > h2 {
-    margin-top: calc(var(--step) + var(--h2-top-space));
-}
-
 .overlay > * {
     pointer-events: auto;
     grid-column: var(--col, 1) / span var(--w, 1);
@@ -293,17 +286,12 @@ a {
     align-self: start;
 }
 
-/* Заголовок внутри обёртки */
-.overlay-content > h2 {
-    margin-top: var(--h2-top-space);
-}
-
 @media (max-width: 768px) {
     .overlay-content {
         grid-template-columns: repeat(2, minmax(0, 1fr));
 
         /* Большой отступ после заголовка */
-        --content-gap: 4rem;
+        --content-gap: 3rem;
 
         /* Маленький промежуток между рядами с картинками */
         row-gap: var(--image-space);
@@ -327,9 +315,6 @@ a {
     align-self: start;
 }
 
-.overlay hgroup > h2 {
-    margin-top: var(--h2-top-space);
-}
 
 .image-link {
     position: relative;
